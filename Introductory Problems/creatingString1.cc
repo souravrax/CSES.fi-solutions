@@ -17,14 +17,13 @@ int32_t main(){
     string s;
     cin>>s;
     sort(all(s));
-    set<string> st;
-    st.insert(s);
-    while(next_permutation(all(s))){
-        st.insert(s);
-    }
-    cout<<st.size()<<'\n';
-    for(auto i : st){
-        cout<<i<<'\n';
+    vector<string> res;
+    do {
+        res.push_back(s);
+    } while(next_permutation(all(s)));
+    cout << res.size() << '\n';
+    for(auto i : res) {
+        cout << i << '\n';
     }
 }
 
