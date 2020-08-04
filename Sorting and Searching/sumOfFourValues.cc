@@ -13,31 +13,51 @@ using namespace std;
 
 using ll = long long;
 
+struct two_sum {
+    int start;
+    int end;
+    ll sum;
+    two_sum(int i, int j, ll k) : start(i), end(j), sum(k) {}
+    bool shares_points_with(two_sum s) {
+        return s.start == start || s.end == start || s.start == end || s.end == end;
+    }
+    struct less_than {
+        bool operator()(const two_sum& a, const two_sum& b) {
+            return a.sum < b.sum;
+        }
+    };
+};
+
 int32_t main(){
     fast;
     int n, x;
     cin >> n >> x;
-    vector<tuple<int,int>> arr(n);
-    for(int i=0; i<n; i++) {
-        int t;
-        cin >> t;
-        arr[i] = {t, i+1};
+    vector<int> arr(n);
+    for(int& i : arr) cin >> i;
+    
+    vector<two_sum> two_sums;
+    for(int i=0; i<n-1; i++) {
+        for(int j=i+1; j<n; j++) {
+            two_sums.push_back(two_sum(i+1, j+1, (ll)(arr[i] + arr[j])));
+        }
     }
-    sort(all(arr));
 
-    for(int i=0; i<=n-4; i++) {
-        for(int j=i+1; j<=n-3; j++) {
-            for(int k=j+1; k<=n-2; k++) {
-                for(int l=k+1; l<=n-1; l++) {
-                    if(x == get<0>(arr[i]) + get<0>(arr[j]) + get<0>(arr[k]) + get<0>(arr[l])) {
-                        cout << get<1>(arr[i]) << ' ' << get<1>(arr[j]) << ' ' << get<1>(arr[k]) << ' ' << get<1>(arr[l]) << '\n';
-                        return 0;
-                    }
-                }
-            }
+    n = two_sums.size();
+
+    sort(all(two_sums), [&](two_sum &a, two_sum &b) {
+            return a.sum < b.sum;
+            });
+
+
+    for(int i=0; i<n; i++) {
+        if(two_sums[i].sum > x) continue;
+        ll c = x - two_sums[i].sum;
+        two_sum test(0, 0, c);
+        auto it = lower_bound(all(two_sums), test, two_sum::less_than());
+        if(it->sum == c && !two_sums[i].shares_points_with(*it)) {
+            cout << it->start << ' ' << it->end << ' ' << two_sums[i].start << ' ' << two_sums[i].end << '\n';
+            return 0;
         }
     }
     cout << "IMPOSSIBLE\n";
 }
-
-
