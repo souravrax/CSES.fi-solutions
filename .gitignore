@@ -1,5 +1,4 @@
 *.swp
-in*
+*.txt
 *.exe
-out*
 *.out
