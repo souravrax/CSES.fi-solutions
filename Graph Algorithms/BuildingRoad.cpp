@@ -9,8 +9,8 @@
 /* #pragma GCC target("sse,sse2,sse3,ssse3,sse4,popcnt,abm,mmx,avx,tune=native") */
 
 #include <bits/stdc++.h>
-#undef _GLIBCXX_HAVE_ICONV
-#include <bits/extc++.h>
+#include <ext/pb_ds/assoc_container.hpp> 
+#include <ext/pb_ds/tree_policy.hpp> 
 #include <ext/rope>
 
 using namespace std;
@@ -73,7 +73,8 @@ template<typename H, typename... T> void flush_out(H h, T... t) { cerr << ' ' <<
 //@Utilities
 template<typename T> inline void mini(T& a, T b) { a = min(a, b); }
 template<typename T> inline void maxi(T& a, T b) { a = max(a, b); }
-template<class T>class Random{ static T range(T&a, T&b){ return a+rand()%(b-a+1); }};
+template<class T> class Random { static T range(T&a, T&b){ return a+rand()%(b-a+1); }};
+template<class T> string bin(T n) { string r;while(n){r+=str(n&1);n>>=1;}reverse(all(r));return r;}
 
 //*//---------------------------- Globals --------------------------//*//
 
