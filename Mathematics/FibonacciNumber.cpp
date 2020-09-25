@@ -118,6 +118,8 @@ inline void tc() {
         mul(mat, mat);
         n >>= 1;
     }
+    cout << ans[0][1] << '\n';
+}
 
 int32_t main() {
     ios::sync_with_stdio(false);
