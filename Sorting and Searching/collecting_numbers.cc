@@ -12,6 +12,7 @@ using namespace std;
 #else
 #define log(x) (void)0x30
 #endif
+
 using ll = long long;
 int main(int argc, char* argv[]) {
     fast; 

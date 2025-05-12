@@ -2,6 +2,9 @@
  *  author: souravrax
  *  created: 28.04.2021 01:13:56
 **/
+#pragma GCC optimize("Ofast")
+#pragma GCC optimize("unroll-loops")
+#pragma GCC target("tune=native")
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -17,7 +20,7 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #else
 #define dbg(...) (void)0x30
 #endif
-using ll = long long;
+using ll = unsigned long long;
 
 int32_t main() {
     ios::sync_with_stdio(false), cin.tie(nullptr);
@@ -30,27 +33,20 @@ int32_t main() {
         graph[u].push_back({v, w});
     }
     priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<>> pq;
-    pq.push({0, 0});
 
-    vector<vector<ll>> cost(n, vector<ll>(k, LLONG_MAX));
-    fill(all(cost[0]), 0);
+    vector<vector<ll>> cost(n, vector<ll>(k, ULONG_LONG_MAX));
+    pq.push({0, 0});
+    cost[0][0] = 0;
 
     while (!pq.empty()) {
         auto [_c, node] = pq.top(); pq.pop();
+        ll Max = *max_element(all(cost[node]));
+        if (Max < _c) continue;
         for (auto& [nei, w] : graph[node]) {
-            int idx = -1;
-            ll diff = 0;
-            for (int i = 0; i < k; i++) {
-                if (cost[nei][i] - _c > diff) {
-                    idx = i;
-                    diff = cost[nei][i] - _c;
-                }
-            }
-            if (idx != -1) {
-                if (cost[nei][idx] > _c + w) {
-                    cost[nei][idx] = _c + w;
-                    pq.push({_c + w, nei});
-                }
+            auto it = max_element(cost[nei].begin(), cost[nei].end());
+            if (*it > _c + w) {
+                *it = _c + w;
+                pq.push({*it, nei});
             }
         }
     }
